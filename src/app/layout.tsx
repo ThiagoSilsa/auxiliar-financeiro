@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
-import { ThemeProvider } from "@/components/created/header/theme-provider";
+import { ThemeProvider } from "@/components/created/theme-provider/theme-provider";
 
 // Font from google font
 const roboto = Roboto()
