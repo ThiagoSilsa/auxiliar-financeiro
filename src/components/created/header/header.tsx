@@ -22,11 +22,10 @@ const NAV_LINKS = [
 
 const Header = () => {
   const { theme, setTheme } = useTheme();
-  const [isMounted, setIsMounted] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background/80 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:h-16 sm:px-6">
+    <header className="sticky top-0 z-40 w-full shadow backdrop-blur supports-backdrop-filter:bg-card/60">
+      <div className="mx-auto flex h-12 max-w-7xl items-center justify-between sm:h-12 px-4 sm:px-6">
         <div className="flex items-center gap-4">
           {/* Menu Lateral */}
 
@@ -48,7 +47,10 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" className="hidden sm:inline-flex"
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden sm:inline-flex"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             {theme === "dark" ? (
@@ -60,9 +62,7 @@ const Header = () => {
         </div>
         <Sheet>
           <SheetTrigger className="sm:hidden">
-            <Button variant={"outline"}>
-              <MenuIcon className="size-5" />
-            </Button>
+            <MenuIcon className="p-0.5 rounded cursor-pointer hover:bg-primary/80 hover:text-white dark:hover:bg-primary/50 text-chart-5 " />
           </SheetTrigger>
           <SheetContent>
             <SheetHeader>
@@ -81,7 +81,10 @@ const Header = () => {
                   </Button>
                 </Link>
               ))}
-              <Button variant="ghost" size="icon" className="sm:inline-flex"
+              <Button
+                variant="ghost"
+                size="icon"
+                className="sm:inline-flex"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
               >
                 {theme === "dark" ? (
