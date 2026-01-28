@@ -15,7 +15,8 @@ import {
 import { useTheme } from "next-themes";
 
 const NAV_LINKS = [
-  { href: "/estrato", label: "Estrato" },
+  { href: "/home", label: "Home" },
+  { href: "/extrato", label: "Extrato" },
   { href: "/contas", label: "Contas" },
   { href: "/caixinhas", label: "Caixinhas" },
 ];
@@ -30,7 +31,7 @@ const Header = () => {
           {/* Menu Lateral */}
 
           <Link
-            href="/"
+            href="/home"
             className="font-bold text-xl tracking-tight text-primary"
           >
             SolarCash
