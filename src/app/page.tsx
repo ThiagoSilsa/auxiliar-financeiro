@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/hover-card";
 
 
-const Home = () => {
+const LoginPage = () => {
   const [canSee, setCanSee] = useState(false);
   const handleAlert = () => {
     toast.success("Bem-vindo!", {
@@ -41,7 +41,7 @@ const Home = () => {
             Em contrução
           </Badge>
 
-          <Card className="container md:w-xl p-4 mx-auto -mt-50">
+          <Card className="container md:w-lg p-4 mx-auto -mt-50 ">
             <CardHeader>
               <CardTitle className="mt-4 text-center font-black text-3xl text-chart-5">
                 SolarCash
@@ -104,25 +104,24 @@ const Home = () => {
               target="_blank"
               rel="noopener noreferrer"
             >
-              
               <HoverCard>
                 <HoverCardTrigger className="text-muted-foreground underline cursor-pointer text-3xl hover:text-primary">
                   <FaGithub />
                 </HoverCardTrigger>
                 <HoverCardContent>
                   Visite meu GitHub{" "}
-                  <a
+                  <Link
                     className="underline hover:text-primary"
                     href="https://github.com/thiagosilsa "
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     @ThiagoSilsa
-                  </a>
+                  </Link>
                 </HoverCardContent>
               </HoverCard>
             </a>
-            <a
+            <Link
               className="hover:scale-110 transition-transform"
               href="https://www.linkedin.com/in/thiago-silsa/"
               target="_blank"
@@ -144,7 +143,7 @@ const Home = () => {
                   </a>
                 </HoverCardContent>
               </HoverCard>
-            </a>
+            </Link>
           </div>
         </div>
       </div>
@@ -152,4 +151,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default LoginPage;
