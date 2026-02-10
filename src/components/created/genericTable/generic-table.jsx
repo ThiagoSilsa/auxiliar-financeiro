@@ -4,6 +4,7 @@ import {
   getCoreRowModel,
   getPaginationRowModel,
   flexRender,
+  getSortedRowModel,
 } from "@tanstack/react-table";
 import { useState } from "react";
 
@@ -13,15 +14,35 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
     pageSize: pageSize,
   });
 
+  const sortStatusFn = (rowA, rowB, _columnId) => {
+    const statusA = rowA.original.status;
+    const statusB = rowB.original.status;
+    const statusOrder = ["single", "complicated", "relationship"];
+    return statusOrder.indexOf(statusA) - statusOrder.indexOf(statusB);
+  };
+
+  const [sorting, setSorting] = useState([]);
+
   const table = useReactTable({
     data: data,
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(), //client-side sorting
+    sortingFns: {
+      sortStatusFn, //or provide our custom sorting function globally for all columns to be able to use
+    },
     state: {
       pagination,
+      sorting,
     },
     onPaginationChange: setPagination,
+    onSortingChange: setSorting, //optionally control sorting state in your own scope for easy access
+    // autoResetPageIndex: false, // turn off page index reset when sorting or filtering - default on/true
+    enableMultiSort: true, //Don't allow shift key to sort multiple columns - default on/true
+    // isMultiSortEvent: (e) => true, //Make all clicks multi-sort - default requires `shift` key
+    // enableSortingRemoval: false, //Don't allow - default on/true
+    maxMultiSortColCount: 3, // only allow 3 columns to be sorted at once - default is Infinity
   });
 
   return (
@@ -31,12 +52,36 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id}>
               {hg.headers.map((header) => (
-                <th key={header.id}>
-                  {flexRender(
-                    header.column.columnDef.header,
-                    header.getContext(),
-                  )}
-                </th>
+                 <th key={header.id} colSpan={header.colSpan}>
+                    {header.isPlaceholder ? null : (
+                      <div
+                        className={
+                          header.column.getCanSort()
+                            ? 'cursor-pointer select-none'
+                            : ''
+                        }
+                        onClick={header.column.getToggleSortingHandler()}
+                        title={
+                          header.column.getCanSort()
+                            ? header.column.getNextSortingOrder() === 'asc'
+                              ? 'Sort ascending'
+                              : header.column.getNextSortingOrder() === 'desc'
+                                ? 'Sort descending'
+                                : 'Clear sort'
+                            : undefined
+                        }
+                      >
+                        {flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                        {{
+                          asc: ' 🔼',
+                          desc: ' 🔽',
+                        }[header.column.getIsSorted()] ?? null}
+                      </div>
+                    )}
+                  </th>
               ))}
             </tr>
           ))}
