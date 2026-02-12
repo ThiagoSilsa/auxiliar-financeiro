@@ -1,4 +1,7 @@
 // Tanstack Table: https://tanstack.com/table/v8/docs/guide/introduction
+"use client"
+// Components
+import { Button } from "@/components/ui/button";
 import {
   useReactTable,
   getCoreRowModel,
@@ -6,9 +9,27 @@ import {
   flexRender,
   getSortedRowModel,
 } from "@tanstack/react-table";
+import {
+  Select,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
+// React
 import { useState } from "react";
 
-export default function GenericTable({ data, columns, pageSize = 10 }) {
+// libs
+import SortedColumnIcon from "../sortedColumnIcon";
+import isEven from "@/lib/isEven";
+
+export default function GenericTable({
+  data,
+  columns,
+  pageSize = 10,
+  showPagination = true,
+}) {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: pageSize,
@@ -28,69 +49,83 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(), //client-side sorting
+    getSortedRowModel: getSortedRowModel(),
     sortingFns: {
-      sortStatusFn, //or provide our custom sorting function globally for all columns to be able to use
+      sortStatusFn,
     },
     state: {
       pagination,
       sorting,
     },
     onPaginationChange: setPagination,
-    onSortingChange: setSorting, //optionally control sorting state in your own scope for easy access
-    // autoResetPageIndex: false, // turn off page index reset when sorting or filtering - default on/true
-    enableMultiSort: true, //Don't allow shift key to sort multiple columns - default on/true
-    // isMultiSortEvent: (e) => true, //Make all clicks multi-sort - default requires `shift` key
-    // enableSortingRemoval: false, //Don't allow - default on/true
-    maxMultiSortColCount: 3, // only allow 3 columns to be sorted at once - default is Infinity
+    onSortingChange: setSorting,
+    enableMultiSort: true,
+    isMultiSortEvent: () => true,
+    maxMultiSortColCount: 3,
   });
 
   return (
     <div>
-      <table className="w-full text-sm">
-        <thead>
+      <table
+        className="w-full text-sm rounded-md overflow-hidden mb-3"
+        style={{ tableLayout: "fixed" }}
+      >
+        <thead className="">
           {table.getHeaderGroups().map((hg) => (
-            <tr key={hg.id}>
+            <tr key={hg.id} className="bg-chart-5/80 font-medium text-white">
               {hg.headers.map((header) => (
-                 <th key={header.id} colSpan={header.colSpan}>
-                    {header.isPlaceholder ? null : (
-                      <div
-                        className={
-                          header.column.getCanSort()
-                            ? 'cursor-pointer select-none'
-                            : ''
-                        }
-                        onClick={header.column.getToggleSortingHandler()}
-                        title={
-                          header.column.getCanSort()
-                            ? header.column.getNextSortingOrder() === 'asc'
-                              ? 'Sort ascending'
-                              : header.column.getNextSortingOrder() === 'desc'
-                                ? 'Sort descending'
-                                : 'Clear sort'
-                            : undefined
-                        }
-                      >
-                        {flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                        {{
-                          asc: ' 🔼',
-                          desc: ' 🔽',
-                        }[header.column.getIsSorted()] ?? null}
-                      </div>
-                    )}
-                  </th>
+                <th
+                  key={header.id}
+                  colSpan={header.colSpan}
+                  className="text-left py-3 px-3"
+                  style={{ width: header.getSize() }}
+                >
+                  {header.isPlaceholder ? null : (
+                    <div
+                      className={`
+                        flex items-center gap-1
+                          ${
+                            header.column.getCanSort()
+                              ? "cursor-pointer select-none"
+                              : ""
+                          }`}
+                      onClick={header.column.getToggleSortingHandler()}
+                      title={
+                        header.column.getCanSort()
+                          ? header.column.getNextSortingOrder() === "asc"
+                            ? "Sort ascending"
+                            : header.column.getNextSortingOrder() === "desc"
+                              ? "Sort descending"
+                              : "Clear sort"
+                          : undefined
+                      }
+                    >
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                      {{
+                        asc: <SortedColumnIcon isSorted={"asc"} />,
+                        desc: <SortedColumnIcon isSorted={"desc"} />,
+                      }[header.column.getIsSorted()] ?? null}
+                    </div>
+                  )}
+                </th>
               ))}
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className="">
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>
+                <td
+                  key={cell.id}
+                  className={`
+                  p-3 overflow-hidden text-ellipsis whitespace-nowrap
+                  ${!isEven(cell.row.index) ? "bg-muted/20" : ""}
+                `}
+                >
                   {flexRender(cell.column.columnDef.cell, cell.getContext())}
                 </td>
               ))}
@@ -100,54 +135,70 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
       </table>
 
       {/* Paginação */}
-      <div className="w-full flex justify-between">
-        <div>
-          <select
-            value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-          >
-            {[5, 10, 20, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                Mostrar {pageSize}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* Botões */}
-        <div>
-          <button
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </button>
-          <button
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </button>
+      {showPagination && (
+        <div className="w-full flex justify-between">
           <div>
-            Página {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
+            <Select
+              value={table.getState().pagination.pageSize}
+              onValueChange={(e) => {
+                table.setPageSize(e);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={`Mostrar ${table.getState().pagination.pageSize}`}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={pageSize}>
+                    Mostrar {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-          <button
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </button>
-          <button
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </button>
+          {/* Botões */}
+          <div className="flex gap-1">
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </Button>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </Button>
+            <div>
+              Página {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getPageCount()}
+            </div>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </Button>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </Button>
+          </div>
         </div>
-        {/* Select */}
-      </div>
+      )}
     </div>
   );
 }
