@@ -24,7 +24,12 @@ import { useState } from "react";
 import SortedColumnIcon from "../sortedColumnIcon";
 import isEven from "@/lib/isEven";
 
-export default function GenericTable({ data, columns, pageSize = 10 }) {
+export default function GenericTable({
+  data,
+  columns,
+  pageSize = 10,
+  showPagination = true,
+}) {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: pageSize,
@@ -130,69 +135,70 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
       </table>
 
       {/* Paginação */}
-      <div className="w-full flex justify-between">
-        <div>
-          <Select
-            value={table.getState().pagination.pageSize}
-            onValueChange={(e) => {
-              table.setPageSize(e);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue
-                placeholder={`Mostrar ${table.getState().pagination.pageSize}`}
-              />
-            </SelectTrigger>
-            <SelectContent>
-              {[5, 10, 20, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={pageSize}>
-                  Mostrar {pageSize}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        {/* Botões */}
-        <div className="flex gap-1">
-          <Button
-            variant={"ghost"}
-            size={"xs"}
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<<"}
-          </Button>
-          <Button
-            variant={"ghost"}
-            size={"xs"}
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            {"<"}
-          </Button>
+      {showPagination && (
+        <div className="w-full flex justify-between">
           <div>
-            Página {table.getState().pagination.pageIndex + 1} de{" "}
-            {table.getPageCount()}
+            <Select
+              value={table.getState().pagination.pageSize}
+              onValueChange={(e) => {
+                table.setPageSize(e);
+              }}
+            >
+              <SelectTrigger>
+                <SelectValue
+                  placeholder={`Mostrar ${table.getState().pagination.pageSize}`}
+                />
+              </SelectTrigger>
+              <SelectContent>
+                {[5, 10, 20, 50].map((pageSize) => (
+                  <SelectItem key={pageSize} value={pageSize}>
+                    Mostrar {pageSize}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
-          <Button
-            variant={"ghost"}
-            size={"xs"}
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            {">"}
-          </Button>
-          <Button
-            variant={"ghost"}
-            size={"xs"}
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            {">>"}
-          </Button>
+          {/* Botões */}
+          <div className="flex gap-1">
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<<"}
+            </Button>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              {"<"}
+            </Button>
+            <div>
+              Página {table.getState().pagination.pageIndex + 1} de{" "}
+              {table.getPageCount()}
+            </div>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              {">"}
+            </Button>
+            <Button
+              variant={"ghost"}
+              size={"xs"}
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              {">>"}
+            </Button>
+          </div>
         </div>
-        {/* Select */}
-      </div>
+      )}
     </div>
   );
 }
