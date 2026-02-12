@@ -9,11 +9,6 @@ import {
   flexRender,
   getSortedRowModel,
 } from "@tanstack/react-table";
-
-// React
-import { useState } from "react";
-
-import isEven from "@/lib/isEven";
 import {
   Select,
   SelectValue,
@@ -21,6 +16,13 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+
+// React
+import { useState } from "react";
+
+// libs
+import SortedColumnIcon from "../sortedColumnIcon";
+import isEven from "@/lib/isEven";
 
 export default function GenericTable({ data, columns, pageSize = 10 }) {
   const [pagination, setPagination] = useState({
@@ -42,9 +44,9 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
     columns: columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(), //client-side sorting
+    getSortedRowModel: getSortedRowModel(),
     sortingFns: {
-      sortStatusFn, //or provide our custom sorting function globally for all columns to be able to use
+      sortStatusFn,
     },
     state: {
       pagination,
@@ -53,6 +55,7 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     enableMultiSort: true,
+    isMultiSortEvent: (e) => true,
     maxMultiSortColCount: 3,
   });
 
@@ -70,11 +73,13 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
                 >
                   {header.isPlaceholder ? null : (
                     <div
-                      className={
-                        header.column.getCanSort()
-                          ? "cursor-pointer select-none"
-                          : ""
-                      }
+                      className={`
+                        flex items-center gap-1
+                          ${
+                            header.column.getCanSort()
+                              ? "cursor-pointer select-none"
+                              : ""
+                          }`}
                       onClick={header.column.getToggleSortingHandler()}
                       title={
                         header.column.getCanSort()
@@ -91,8 +96,8 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
                         header.getContext(),
                       )}
                       {{
-                        asc: " 🔼",
-                        desc: " 🔽",
+                        asc: <SortedColumnIcon isSorted={"asc"} />,
+                        desc: <SortedColumnIcon isSorted={"desc"} />,
                       }[header.column.getIsSorted()] ?? null}
                     </div>
                   )}
@@ -108,7 +113,7 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
                 <td
                   key={cell.id}
                   className={`
-                  py-3 px-3
+                  p-3
                   ${!isEven(cell.row.index) ? "bg-muted/20" : ""}
                 `}
                 >
