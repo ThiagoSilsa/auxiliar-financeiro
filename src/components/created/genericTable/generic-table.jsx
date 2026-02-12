@@ -14,6 +14,13 @@ import {
 import { useState } from "react";
 
 import isEven from "@/lib/isEven";
+import {
+  Select,
+  SelectValue,
+  SelectTrigger,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
 
 export default function GenericTable({ data, columns, pageSize = 10 }) {
   const [pagination, setPagination] = useState({
@@ -116,23 +123,25 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
       {/* Paginação */}
       <div className="w-full flex justify-between">
         <div>
-          <select
-            className="cursor-pointer rounded-md border border-border bg-transparent px-2 py-1 text-sm"
+          <Select
             value={table.getState().pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
+            onValueChange={(e) => {
+              table.setPageSize(e);
             }}
           >
-            {[5, 10, 20, 50].map((pageSize, index) => (
-              <option
-                className={`dark:text-black ${isEven(index) ? "bg-muted/10" : ""}`}
-                key={pageSize}
-                value={pageSize}
-              >
-                Mostrar {pageSize}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger>
+              <SelectValue
+                placeholder={`Mostrar ${table.getState().pagination.pageSize}`}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {[5, 10, 20, 50].map((pageSize) => (
+                <SelectItem key={pageSize} value={pageSize}>
+                  Mostrar {pageSize}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
         {/* Botões */}
         <div className="flex gap-1">
