@@ -61,7 +61,10 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
 
   return (
     <div>
-      <table className="w-full text-sm rounded-md overflow-hidden mb-3">
+      <table
+        className="w-full text-sm rounded-md overflow-hidden mb-3"
+        style={{ tableLayout: "fixed" }}
+      >
         <thead className="">
           {table.getHeaderGroups().map((hg) => (
             <tr key={hg.id} className="bg-chart-5/80 font-medium text-white">
@@ -70,6 +73,7 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
                   key={header.id}
                   colSpan={header.colSpan}
                   className="text-left py-3 px-3"
+                  style={{ width: header.getSize() }}
                 >
                   {header.isPlaceholder ? null : (
                     <div
@@ -113,7 +117,7 @@ export default function GenericTable({ data, columns, pageSize = 10 }) {
                 <td
                   key={cell.id}
                   className={`
-                  p-3
+                  p-3 white-space-wrap overflow-hidden text-ellipsis
                   ${!isEven(cell.row.index) ? "bg-muted/20" : ""}
                 `}
                 >
