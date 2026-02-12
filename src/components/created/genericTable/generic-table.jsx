@@ -1,5 +1,5 @@
 // Tanstack Table: https://tanstack.com/table/v8/docs/guide/introduction
-
+"use client"
 // Components
 import { Button } from "@/components/ui/button";
 import {
@@ -60,7 +60,7 @@ export default function GenericTable({
     onPaginationChange: setPagination,
     onSortingChange: setSorting,
     enableMultiSort: true,
-    isMultiSortEvent: (e) => true,
+    isMultiSortEvent: () => true,
     maxMultiSortColCount: 3,
   });
 
@@ -122,7 +122,7 @@ export default function GenericTable({
                 <td
                   key={cell.id}
                   className={`
-                  p-3 white-space-wrap overflow-hidden text-ellipsis
+                  p-3 overflow-hidden text-ellipsis whitespace-nowrap
                   ${!isEven(cell.row.index) ? "bg-muted/20" : ""}
                 `}
                 >
