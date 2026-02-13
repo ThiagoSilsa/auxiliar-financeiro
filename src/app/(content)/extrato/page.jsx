@@ -1,4 +1,6 @@
 "use client";
+// React
+import { useState } from "react";
 
 // Components
 import {
@@ -7,15 +9,13 @@ import {
 } from "@/components/created/main-container/main-container";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ExtratoFilter from "./components/extrato-filter";
-import { Badge } from "@/components/ui/badge";
-
-import { useState } from "react";
-
-import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import ExtratoInfo from "./components/extrato-info";
-
 import GenericTable from "@/components/created/genericTable/generic-table";
 
+// Config
+import { getExtratoColumns } from "./config/columns";
+
+// Mock
 import TRANSACOES_INICIAIS from "./Mock/data.json";
 
 const CATEGORIAS = [
@@ -94,14 +94,7 @@ export default function ExtratoPage() {
     return matchBusca && matchTipo && matchCategoria;
   });
 
-  const columns = [
-    { accessorKey: "tipo", header: "Tipo", enableSorting: false, size: 50 },
-    { accessorKey: "descricao", header: "Descrição", size: 300 },
-    { accessorKey: "categoria", header: "Categoria", size: 75 },
-    { accessorKey: "valor", header: "Valor", size: 75 },
-    { accessorKey: "data", header: "Data", sortDescFirst: true, size: 75 },
-    { accessorKey: "conta", header: "Conta", size: 75 },
-  ];
+  const columns = getExtratoColumns();
   return (
     <main>
       <MainContainer>
@@ -145,7 +138,6 @@ export default function ExtratoPage() {
             </CardContent>
           </Card>
         </ContainerDiv>
-       
       </MainContainer>
     </main>
   );
