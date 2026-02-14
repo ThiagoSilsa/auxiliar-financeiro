@@ -4,10 +4,21 @@
  * @returns {string} Valor formatado como moeda brasileira
  */
 export const formatCurrency = (value, currency = "BRL") => {
+  // Tratar casos onde o valor é null, undefined ou não é um número
+  if (value === null || value === undefined) {
+    return "";
+  }
+
+  // Garantir que o valor seja um número, mesmo que seja passado como string
+  const numericValue = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(numericValue)) {
+    return "";
+  }
+  // Formatar o valor usando Intl.NumberFormat para o padrão brasileiro
   return new Intl.NumberFormat("pt-BR", {
     style: "currency",
     currency: currency,
-  }).format(value);
+  }).format(numericValue);
 };
 
 /**
