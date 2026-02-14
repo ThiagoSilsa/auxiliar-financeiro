@@ -1,4 +1,3 @@
-import { Badge } from "@/components/ui/badge";
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
 import { formatCurrency, formatDate } from "@/lib/format";
 export const getExtratoColumns = () => [
@@ -46,7 +45,11 @@ export const getExtratoColumns = () => [
           }
         `}
       >
-        {row.original.tipo === "entrada" ? <p className="w-2">+</p> : <p className="w-2 text-lg">-</p>}
+        {row.original.tipo === "entrada" ? (
+          <p className="w-2">+</p>
+        ) : (
+          <p className="w-2">-</p>
+        )}
         {formatCurrency(row.original.valor)}
       </span>
     ),
