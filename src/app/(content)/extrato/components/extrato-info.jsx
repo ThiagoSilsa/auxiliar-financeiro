@@ -55,7 +55,7 @@ const ExtratoInfo = ({
             <SheetHeader>
               <SheetTitle>Adicionar Transação</SheetTitle>
               <SheetDescription>
-                Preenchaos dados da nova transação.
+                Preencha os dados da nova transação.
               </SheetDescription>
             </SheetHeader>
             <div className="space-y-4 py-4 px-3">
