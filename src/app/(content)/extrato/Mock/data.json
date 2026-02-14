@@ -1,0 +1,166 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "tipo": "saida",
+      "descricao": "Pagamento de Conta de Luz",
+      "categoria": "Moradia",
+      "valor": 150.0,
+      "data": "2025-12-12T00:00:00Z",
+      "conta": "Nubank"
+    },
+    {
+      "id": "2",
+      "tipo": "saida",
+      "descricao": "Supermercado",
+      "categoria": "Alimentação",
+      "valor": 250.0,
+      "data": "2025-12-11T00:00:00Z",
+      "conta": "Nubank"
+    },
+    {
+      "id": "3",
+      "tipo": "entrada",
+      "descricao": "Salário",
+      "categoria": "Investimento",
+      "valor": 5000.0,
+      "data": "2025-12-10T00:00:00Z",
+      "conta": "Banco do Brasil"
+    },
+    {
+      "id": "4",
+      "tipo": "saida",
+      "descricao": "Uber",
+      "categoria": "Transporte",
+      "valor": 45.0,
+      "data": "2025-12-09T00:00:00Z",
+      "conta": "Nubank"
+    },
+    {
+      "id": "5",
+      "tipo": "saida",
+      "descricao": "Consulta Médica",
+      "categoria": "Saúde",
+      "valor": 200.0,
+      "data": "2025-12-08T00:00:00Z",
+      "conta": "Itaú"
+    },
+    {
+      "id": "6",
+      "tipo": "entrada",
+      "descricao": "Freelance de Design",
+      "categoria": "Investimento",
+      "valor": 1200.0,
+      "data": "2025-12-07T00:00:00Z",
+      "conta": "Bradesco"
+    },
+    {
+      "id": "7",
+      "tipo": "saida",
+      "descricao": "Cinema",
+      "categoria": "Lazer",
+      "valor": 60.0,
+      "data": "2025-12-06T00:00:00Z",
+      "conta": "Nubank"
+    },
+    {
+      "id": "8",
+      "tipo": "saida",
+      "descricao": "lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, voluptate. lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, voluptate.",
+      "categoria": "Moradia",
+      "valor": 1200.0,
+      "data": "2026-01-30T00:00:00Z",
+      "conta": "Banco do Brasil"
+    },
+    {
+      "id": "9",
+      "tipo": "entrada",
+      "descricao": "Venda de Roupas Usadas",
+      "categoria": "Investimento",
+      "valor": 300.0,
+      "data": "2025-12-04T00:00:00Z",
+      "conta": "Itaú"
+    },
+    {
+      "id": "10",
+      "tipo": "saida",
+      "descricao": "PencA",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "2026-02-13T22:26:32Z",
+      "conta": "Bradesco"
+    },
+    {
+      "id": "11",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "2025-12-03T00:00:00Z",
+      "conta": "Bradesco"
+    },
+    {
+      "id": "12",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Bradesco"
+    },
+    {
+      "id": "13",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Bradesco"
+    },
+    {
+      "id": "14",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": null,
+      "conta": "Itaú"
+    },
+    {
+      "id": "15",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Itaú"
+    },
+    {
+      "id": "16",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Itaú"
+    },
+    {
+      "id": "17",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Itaú"
+    },
+    {
+      "id": "18",
+      "tipo": "saida",
+      "descricao": "Academia",
+      "categoria": "Saúde",
+      "valor": 100.0,
+      "data": "03/12/2025",
+      "conta": "Itaú"
+    }
+  ]
+}

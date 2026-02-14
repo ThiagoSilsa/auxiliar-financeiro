@@ -122,7 +122,7 @@ export default function GenericTable({
                 <td
                   key={cell.id}
                   className={`
-                  p-3 overflow-hidden text-ellipsis whitespace-nowrap
+                  p-3 break-normal
                   ${!isEven(cell.row.index) ? "bg-muted/20" : ""}
                 `}
                 >
