@@ -10,7 +10,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ExtratoFilter from "./components/extrato-filter";
 import ExtratoInfo from "./components/extrato-info";
-import GenericTable from "@/components/created/genericTable/generic-table";
+import GenericTable from "@/components/created/generic-table/generic-table";
 
 // Config
 import { getExtratoColumns } from "./config/columns";
