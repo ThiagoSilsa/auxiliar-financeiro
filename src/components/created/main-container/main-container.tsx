@@ -1,18 +1,20 @@
+import { cn } from "@/lib/utils";
 
-function MainContainer( {children}: {children: React.ReactNode}) {
+function MainContainer({ className, children }: React.ComponentProps<"div">) {
   return (
-    <div className="mx-auto max-w-7xl flex flex-col items-center justify-between p-4 sm:px-6 sm:py-4 gap-4">
+    <div
+      className={cn(
+        "mx-auto max-w-7xl flex flex-col items-center justify-between p-4 sm:px-6 sm:py-4 gap-4",
+        className,
+      )}
+    >
       {children}
     </div>
   );
 }
 
-function ContainerDiv( {children}: {children: React.ReactNode}) {
-  return (
-    <div className="w-full flex gap-4 flex-col sm:flex-row flex-wrap justify-between">
-      {children}
-    </div>
-  );
+function ContainerDiv({ className, children }: React.ComponentProps<"div">) {
+  return <div className={cn("w-full grid gap-4", className)}>{children}</div>;
 }
 
 export { MainContainer, ContainerDiv };

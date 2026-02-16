@@ -37,8 +37,8 @@ const HomePage = () => {
   return (
     <main>
       <MainContainer>
-        <ContainerDiv>
-          <Card className="w-full sm:w-[33%]">
+        <ContainerDiv className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <Card className="w-full">
             <CardContent>
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center gap-2">
@@ -95,7 +95,7 @@ const HomePage = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="w-full sm:w-[33%]">
+          <Card className="w-full">
             <CardContent>
               <div className="flex items-center gap-2">
                 <BsBank className="bg-primary text-white size-9 p-2 rounded-md" />
@@ -133,7 +133,7 @@ const HomePage = () => {
               </Carousel>
             </CardContent>
           </Card>
-          <Card className="w-full sm:w-[33%] flex flex-col gap-4">
+          <Card className="w-full flex flex-col gap-4">
             <CardContent>
               <div className="flex items-center gap-2">
                 <FaPiggyBank className="bg-primary text-white size-9 p-2 rounded-md" />
@@ -171,8 +171,8 @@ const HomePage = () => {
             </CardContent>
           </Card>
         </ContainerDiv>
-        <ContainerDiv>
-          <Card className="sm:w-1/2 w-full">
+        <ContainerDiv className="grid-cols-1 md:grid-cols-2 gap-4">
+          <Card className="w-full">
             <CardContent>
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center gap-2">
@@ -213,7 +213,7 @@ const HomePage = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="sm:w-1/2 w-full">
+          <Card className="w-full">
             <CardContent>
               <div className="flex justify-between items-center mb-4">
                 <div className="flex items-center gap-2">

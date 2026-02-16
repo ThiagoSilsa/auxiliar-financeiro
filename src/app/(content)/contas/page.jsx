@@ -34,20 +34,20 @@ export default function ContasPage() {
   const [novaConta, setNovaConta] = useState({
     nome: "",
     tipo: "digital",
-    valor: "",
+    saldo: "",
   });
   const [sheetOpen, setSheetOpen] = useState(false);
   const [editandoId, setEditandoId] = useState(null);
 
   // Total de todas as contas
   const totalContas = useMemo(
-    () => contas.reduce((acc, conta) => acc + conta.valor, 0),
+    () => contas.reduce((acc, conta) => acc + conta.saldo, 0),
     [contas],
   );
 
   // Adicionar ou editar conta
   const handleAdicionarConta = () => {
-    if (novaConta.nome && novaConta.tipo && novaConta.valor) {
+    if (novaConta.nome && novaConta.tipo && novaConta.saldo) {
       if (editandoId) {
         // Editar conta existente
         setContas(
@@ -57,7 +57,7 @@ export default function ContasPage() {
                   ...conta,
                   nome: novaConta.nome,
                   tipo: novaConta.tipo,
-                  valor: parseFloat(novaConta.valor),
+                  saldo: parseFloat(novaConta.saldo),
                 }
               : conta,
           ),
@@ -69,11 +69,11 @@ export default function ContasPage() {
           id: Date.now().toString(),
           nome: novaConta.nome,
           tipo: novaConta.tipo,
-          valor: parseFloat(novaConta.valor),
+          saldo: parseFloat(novaConta.saldo),
         };
         setContas([conta, ...contas]);
       }
-      setNovaConta({ nome: "", tipo: "digital", valor: "" });
+      setNovaConta({ nome: "", tipo: "digital", saldo: "" });
       setSheetOpen(false);
     }
   };
@@ -84,7 +84,7 @@ export default function ContasPage() {
     setNovaConta({
       nome: conta.nome,
       tipo: conta.tipo,
-      valor: conta.valor.toString(),
+      saldo: conta.saldo.toString(),
     });
     setSheetOpen(true);
   };
@@ -99,7 +99,7 @@ export default function ContasPage() {
     setSheetOpen(open);
     if (!open) {
       setEditandoId(null);
-      setNovaConta({ nome: "", tipo: "digital", valor: "" });
+      setNovaConta({ nome: "", tipo: "digital", saldo: "" });
     }
   };
 
@@ -118,9 +118,9 @@ export default function ContasPage() {
           />
         </ContainerDiv>
 
-        <ContainerDiv>
+        <ContainerDiv className="grid-cols-1 md:grid-cols-3">
           {contas.map((conta) => (
-            <Card key={conta.id} className="mb-4 sm:w-100 w-full">
+            <Card key={conta.id} className="w-full">
               <CardHeader className="flex gap-2 justify-between items-center">
                 <div className="flex items-center-safe justify-center gap-2">
                   <div className="p-2 bg-primary  rounded-md text-white">
@@ -159,7 +159,7 @@ export default function ContasPage() {
                 <p>
                   Saldo:{" "}
                   <span className="font-bold text-ring/80">
-                    {formatCurrency(conta.valor)}
+                    {formatCurrency(conta.saldo)}
                   </span>
                 </p>
               </CardContent>
