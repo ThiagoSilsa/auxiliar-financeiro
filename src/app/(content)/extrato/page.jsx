@@ -11,12 +11,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import ExtratoFilter from "./components/extrato-filter";
 import ExtratoInfo from "./components/extrato-info";
 import GenericTable from "@/components/created/generic-table/generic-table";
+import GenericModal from "@/components/created/generic-modal/generic-modal";
+import GenericDeleteModal from "@/components/created/generic-delete-modal/generic-delete-modal";
+import FormFields from "./components/form-fields";
 
 // Config
 import { getExtratoColumns } from "./config/columns";
 
 // Mock
 import TRANSACOES_INICIAIS from "./Mock/data.json";
+
+// lib
+import { toast } from "sonner";
 
 const CATEGORIAS = [
   "Moradia",
@@ -31,50 +37,98 @@ const CATEGORIAS = [
 
 const CONTAS = ["Nubank", "Banco do Brasil", "Itaú", "Bradesco"];
 
+const initialForm = {
+  tipo: "entrada",
+  descricao: "",
+  categoria: "",
+  valor: 0,
+  data: "",
+  conta: "",
+};
+
 export default function ExtratoPage() {
   const [transacoes, setTransacoes] = useState(TRANSACOES_INICIAIS?.data || []);
   const [searchTerm, setSearchTerm] = useState("");
   const [filtroTipo, setFiltroTipo] = useState("todos");
   const [filtroCategoria, setFiltroCategoria] = useState("todos");
-  const [novaTransacao, setNovaTransacao] = useState({
-    tipo: "entrada",
-    descricao: "",
-    categoria: "",
-    valor: "",
-    data: "",
-    conta: "",
-  });
-  const [sheetOpen, setSheetOpen] = useState(false);
 
-  // Adiciona nova transação ao estado
-  const handleAdicionarTransacao = () => {
-    if (
-      novaTransacao.descricao &&
-      novaTransacao.categoria &&
-      novaTransacao.valor &&
-      novaTransacao.data &&
-      novaTransacao.conta
-    ) {
-      const transacao = {
-        id: Date.now().toString(),
-        tipo: novaTransacao.tipo,
-        descricao: novaTransacao.descricao,
-        categoria: novaTransacao.categoria,
-        valor: parseFloat(novaTransacao.valor),
-        data: novaTransacao.data,
-        conta: novaTransacao.conta,
-      };
-      setTransacoes([transacao, ...transacoes]);
-      setNovaTransacao({
-        tipo: "entrada",
-        descricao: "",
-        categoria: "",
-        valor: "",
-        data: "",
-        conta: "",
-      });
-      setSheetOpen(false);
-    }
+  const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [form, setForm] = useState(initialForm);
+
+  const handleOpenAddModal = () => {
+    setIsEditing(false);
+    setForm(initialForm);
+    setIsGenericModalOpen(true);
+  };
+
+  const handleOpenEditModal = (transacao) => {
+    setIsEditing(true);
+    setForm({
+      id: transacao.id,
+      tipo: transacao.tipo,
+      descricao: transacao.descricao,
+      categoria: transacao.categoria,
+      valor: transacao.valor,
+      data: transacao.data.split("T")[0], // Converte ISO para YYYY-MM-DD
+      conta: transacao.conta,
+    });
+    setIsGenericModalOpen(true);
+  };
+
+  const handleOpenDeleteModal = (transacao) => {
+    setForm({
+      id: transacao.id,
+      descricao: transacao.descricao,
+    });
+    setIsDeleteModalOpen(true);
+  };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    const transacao = {
+      id: Date.now().toString(),
+      tipo: form.tipo,
+      descricao: form.descricao,
+      categoria: form.categoria,
+      valor: parseFloat(form.valor),
+      data: new Date(form.data).toISOString(),
+      conta: form.conta,
+    };
+    setTransacoes([transacao, ...transacoes]);
+    setIsGenericModalOpen(false);
+    toast.success("Transação adicionada com sucesso!");
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setTransacoes((prev) =>
+      prev.map((transacao) =>
+        transacao.id === form.id
+          ? {
+              ...transacao,
+              tipo: form.tipo,
+              descricao: form.descricao,
+              categoria: form.categoria,
+              valor: parseFloat(form.valor),
+              data: new Date(form.data).toISOString(),
+              conta: form.conta,
+            }
+          : transacao,
+      ),
+    );
+    setIsGenericModalOpen(false);
+    toast.success("Transação editada com sucesso!");
+  };
+
+  const handleDelete = () => {
+    setTransacoes((prev) =>
+      prev.filter((transacao) => transacao.id !== form.id),
+    );
+    setIsDeleteModalOpen(false);
+    toast.success("Transação excluída com sucesso!");
   };
 
   // Filtragem das transações com base nos filtros e termo de busca
@@ -97,17 +151,36 @@ export default function ExtratoPage() {
   const columns = getExtratoColumns();
   return (
     <main>
+      <GenericModal
+        isOpen={isGenericModalOpen}
+        onOpenChange={setIsGenericModalOpen}
+        title={isEditing ? "Editar Transação" : "Adicionar Transação"}
+        description={
+          isEditing
+            ? "Edite os dados da transação selecionada."
+            : "Adicione uma nova transação ao sistema."
+        }
+        submitLabel={isEditing ? "Editar" : "Adicionar"}
+        onSubmit={isEditing ? handleEdit : handleAdd}
+      >
+        <FormFields
+          form={form}
+          setForm={setForm}
+          CATEGORIAS={CATEGORIAS}
+          CONTAS={CONTAS}
+        />
+      </GenericModal>
+
+      <GenericDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDelete}
+        itemName={form?.descricao}
+      />
+
       <MainContainer>
         <ContainerDiv>
-          <ExtratoInfo
-            CATEGORIAS={CATEGORIAS}
-            CONTAS={CONTAS}
-            sheetOpen={sheetOpen}
-            setSheetOpen={setSheetOpen}
-            novaTransacao={novaTransacao}
-            setNovaTransacao={setNovaTransacao}
-            handleAdicionarTransacao={handleAdicionarTransacao}
-          />
+          <ExtratoInfo openModal={handleOpenAddModal} />
         </ContainerDiv>
 
         <ContainerDiv>
@@ -134,6 +207,9 @@ export default function ExtratoPage() {
                 columns={columns}
                 pageSize={10}
                 showPagination={true}
+                showActions={true}
+                onStartEdit={handleOpenEditModal}
+                onStartDelete={handleOpenDeleteModal}
               />
             </CardContent>
           </Card>

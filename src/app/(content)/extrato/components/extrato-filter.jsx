@@ -32,7 +32,7 @@ const ExtratoFilter = ({
             <FaFilter className="mr-2 size-4" />
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             <SelectItem value="todos">Todos</SelectItem>
             <SelectItem value="entrada">Entradas</SelectItem>
             <SelectItem value="saida">Saídas</SelectItem>
@@ -43,7 +43,7 @@ const ExtratoFilter = ({
             <FaFilter className="mr-2 size-4" />
             <SelectValue />
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent position="popper">
             <SelectItem value="todos">Todas as Categorias</SelectItem>
             {CATEGORIAS.map((cat) => (
               <SelectItem key={cat} value={cat}>

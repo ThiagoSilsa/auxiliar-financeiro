@@ -1,5 +1,5 @@
 // Tanstack Table: https://tanstack.com/table/v8/docs/guide/introduction
-"use client"
+"use client";
 // Components
 import { Button } from "@/components/ui/button";
 import {
@@ -16,19 +16,31 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // React
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 // libs
 import SortedColumnIcon from "./components/sorted-column-Icon";
 import isEven from "@/lib/isEven";
+
+// Icons
+import { CiMenuKebab } from "react-icons/ci";
 
 export default function GenericTable({
   data,
   columns,
   pageSize = 10,
   showPagination = true,
+  showActions = true,
+  onStartEdit,
+  onStartDelete,
 }) {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -44,9 +56,46 @@ export default function GenericTable({
 
   const [sorting, setSorting] = useState([]);
 
+  // Adiciona coluna de ações se showActions for true
+  const columnsWithActions = useMemo(() => {
+    if (!showActions || !onStartEdit || !onStartDelete) return columns;
+
+    return [
+      ...columns,
+      {
+        id: "actions",
+        header: "Ações",
+        size: 50,
+        cell: ({ row }) => (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon">
+                <CiMenuKebab />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onSelect={() => onStartEdit(row.original)}
+              >
+                Editar
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onSelect={() => onStartDelete(row.original)}
+              >
+                Excluir
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        ),
+      },
+    ];
+  }, [columns, showActions, onStartEdit, onStartDelete]);
+
   const table = useReactTable({
     data: data,
-    columns: columns,
+    columns: columnsWithActions,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
