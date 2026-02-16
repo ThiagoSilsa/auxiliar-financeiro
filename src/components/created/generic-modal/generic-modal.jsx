@@ -23,9 +23,9 @@ const GenericModal = ({
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <form onSubmit={onSubmit}>
-        {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
-        <DialogContent className="sm:max-w-sm">
+      {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
+      <DialogContent className="sm:max-w-sm">
+        <form onSubmit={onSubmit}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             {description ? (
@@ -43,8 +43,8 @@ const GenericModal = ({
             </DialogClose>
             <Button type="submit">{submitLabel}</Button>
           </DialogFooter>
-        </DialogContent>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };
