@@ -11,110 +11,102 @@ import {
   ContainerDiv,
   MainContainer,
 } from "@/components/created/main-container/main-container";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import ContasInfo from "./components/contas-info";
-import { Button } from "@/components/ui/button";
-
-// Mock
-import CONTAS_INICIAIS from "./Mock/data.json";
-
-// lib
-import { formatCurrency } from "@/lib/format";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import GenericModal from "@/components/created/generic-modal/generic-modal";
+import GenericDeleteModal from "@/components/created/generic-delete-modal/generic-delete-modal";
+import FormFields from "./components/form-fields";
+import ContasInfo from "./components/contas-info";
+
+// Mock
+import CONTAS_INICIAIS from "./Mock/data.json";
+
+// lib
+import { formatCurrency } from "@/lib/format";
+
+const initialform = {
+  nome: "",
+  tipo: "corrente",
+  saldo: 0,
+  ativa: false,
+};
 
 export default function ContasPage() {
   const [contas, setContas] = useState(CONTAS_INICIAIS?.data || []);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [filtroTipo, setFiltroTipo] = useState("todos");
-  const [novaConta, setNovaConta] = useState({
-    nome: "",
-    tipo: "digital",
-    saldo: "",
-  });
-  const [sheetOpen, setSheetOpen] = useState(false);
-  const [editandoId, setEditandoId] = useState(null);
 
+  const [isGenericModalOpen, setIsGenericModalOpen] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+
+  const [isEditing, setIsEditing] = useState(false);
+
+  const [form, setForm] = useState(initialform);
+
+  const handleOpenAddModal = () => {
+    setIsEditing(false);
+    setForm(initialform);
+    setIsGenericModalOpen(true);
+  };
+
+  const handleOpenEditModal = (conta) => {
+    setIsEditing(true);
+    setForm({
+      nome: conta.nome,
+      tipo: conta.tipo,
+      saldo: conta.saldo,
+      ativa: !conta.inativa,
+    });
+    setIsGenericModalOpen(true);
+  };
+
+  const handleOpenDeleteModal = (conta) => {
+    setForm({
+      nome: conta.nome,
+      tipo: conta.tipo,
+      saldo: conta.saldo,
+      ativa: !conta.inativa,
+    });
+    setIsDeleteModalOpen(true);
+  };
   // Total de todas as contas
   const totalContas = useMemo(
     () => contas.reduce((acc, conta) => acc + conta.saldo, 0),
     [contas],
   );
 
-  // Adicionar ou editar conta
-  const handleAdicionarConta = () => {
-    if (novaConta.nome && novaConta.tipo && novaConta.saldo) {
-      if (editandoId) {
-        // Editar conta existente
-        setContas(
-          contas.map((conta) =>
-            conta.id === editandoId
-              ? {
-                  ...conta,
-                  nome: novaConta.nome,
-                  tipo: novaConta.tipo,
-                  saldo: parseFloat(novaConta.saldo),
-                }
-              : conta,
-          ),
-        );
-        setEditandoId(null);
-      } else {
-        // Adicionar nova conta
-        const conta = {
-          id: Date.now().toString(),
-          nome: novaConta.nome,
-          tipo: novaConta.tipo,
-          saldo: parseFloat(novaConta.saldo),
-        };
-        setContas([conta, ...contas]);
-      }
-      setNovaConta({ nome: "", tipo: "digital", saldo: "" });
-      setSheetOpen(false);
-    }
-  };
-
-  // Editar conta — preenche o formulário e abre o sheet
-  const handleEditar = (conta) => {
-    setEditandoId(conta.id);
-    setNovaConta({
-      nome: conta.nome,
-      tipo: conta.tipo,
-      saldo: conta.saldo.toString(),
-    });
-    setSheetOpen(true);
-  };
-
-  // Excluir conta
-  const handleExcluir = (id) => {
-    setContas(contas.filter((conta) => conta.id !== id));
-  };
-
-  // Ao fechar o sheet, limpar estado de edição
-  const handleSheetChange = (open) => {
-    setSheetOpen(open);
-    if (!open) {
-      setEditandoId(null);
-      setNovaConta({ nome: "", tipo: "digital", saldo: "" });
-    }
-  };
-
   return (
     <main>
+      <GenericModal
+        isOpen={isGenericModalOpen}
+        onOpenChange={setIsGenericModalOpen}
+        title={isEditing ? "Editar Conta" : "Adicionar Conta"}
+        description={
+          isEditing
+            ? "Edite os dados da conta selecionada."
+            : "Adicione uma nova conta ao sistema."
+        }
+        submitLabel={isEditing ? "Editar" : "Adicionar"}
+      >
+        {/* Campos do formulário */}
+        <FormFields form={form} setForm={setForm} />
+      </GenericModal>
+
+      <GenericDeleteModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onDelete={() => setIsDeleteModalOpen(false)}
+        itemName={form?.nome}
+      />
       <MainContainer>
         <ContainerDiv>
           <ContasInfo
             totalContas={totalContas}
-            sheetOpen={sheetOpen}
-            setSheetOpen={handleSheetChange}
-            novaConta={novaConta}
-            setNovaConta={setNovaConta}
-            handleAdicionarConta={handleAdicionarConta}
-            editando={!!editandoId}
+            openModal={handleOpenAddModal}
           />
         </ContainerDiv>
 
@@ -141,13 +133,13 @@ export default function ContasPage() {
                     <DropdownMenuContent>
                       <DropdownMenuItem
                         className="cursor-pointer"
-                        onSelect={() => handleEditar(conta)}
+                        onSelect={() => handleOpenEditModal(conta)}
                       >
                         Editar
                       </DropdownMenuItem>
                       <DropdownMenuItem
                         className="cursor-pointer"
-                        onSelect={() => handleExcluir(conta.id)}
+                        onSelect={() => handleOpenDeleteModal(conta)}
                       >
                         Excluir
                       </DropdownMenuItem>
