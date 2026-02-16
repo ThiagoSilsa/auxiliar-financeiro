@@ -24,7 +24,7 @@ const GenericModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       {trigger ? <DialogTrigger asChild>{trigger}</DialogTrigger> : null}
-      <DialogContent className="sm:max-w-sm">
+      <DialogContent className="sm:max-w-sm md:max-w-lg lg:max-w-xl max-h-[90vh] overflow-auto">
         <form onSubmit={onSubmit}>
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
@@ -32,8 +32,10 @@ const GenericModal = ({
               <DialogDescription>{description}</DialogDescription>
             ) : null}
           </DialogHeader>
-          <div className="grid gap-4 py-4">{formFields}</div>
-          <DialogFooter>
+          <div className="grid gap-4 py-4">
+            {formFields}
+          </div>
+          <DialogFooter >
             <DialogClose asChild>
               <Button type="button" variant="outline">
                 {cancelLabel}
