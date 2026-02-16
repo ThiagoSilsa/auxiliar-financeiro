@@ -21,7 +21,7 @@ import {
 import { useState } from "react";
 
 // libs
-import SortedColumnIcon from "../sortedColumnIcon";
+import SortedColumnIcon from "./components/sorted-column-Icon";
 import isEven from "@/lib/isEven";
 
 export default function GenericTable({
