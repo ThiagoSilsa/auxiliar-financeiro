@@ -1,0 +1,49 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "nome": "Conta Corrente Principal",
+      "tipo": "Corrente",
+      "banco": "Banco do Brasil",
+      "saldo": 5250.75,
+      "dataAbertura": "2022-01-15",
+      "ativa": true
+    },
+    {
+      "id": 2,
+      "nome": "Poupança Pessoal",
+      "tipo": "Poupança",
+      "banco": "Caixa Econômica",
+      "saldo": 12500.0,
+      "dataAbertura": "2021-06-20",
+      "ativa": true
+    },
+    {
+      "id": 3,
+      "nome": "Conta Investimentos",
+      "tipo": "Investimento",
+      "banco": "XP Investimentos",
+      "saldo": 25000.5,
+      "dataAbertura": "2023-03-10",
+      "ativa": true
+    },
+    {
+      "id": 4,
+      "nome": "Conta Salário",
+      "tipo": "Corrente",
+      "banco": "Itaú",
+      "saldo": 3750.25,
+      "dataAbertura": "2020-11-05",
+      "ativa": true
+    },
+    {
+      "id": 5,
+      "nome": "Poupança Férias",
+      "tipo": "Poupança",
+      "banco": "Santander",
+      "saldo": 8200.0,
+      "dataAbertura": "2022-09-12",
+      "ativa": true
+    }
+  ]
+}
