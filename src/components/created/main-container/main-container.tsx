@@ -9,7 +9,9 @@ function MainContainer( {children}: {children: React.ReactNode}) {
 
 function ContainerDiv( {children}: {children: React.ReactNode}) {
   return (
-    <div className="w-full flex gap-4 flex-col sm:flex-row ">{children}</div>
+    <div className="w-full flex gap-4 flex-col sm:flex-row flex-wrap justify-between">
+      {children}
+    </div>
   );
 }
 
