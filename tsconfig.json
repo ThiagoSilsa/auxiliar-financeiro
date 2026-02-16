@@ -31,7 +31,7 @@
     "**/*.mts",
     "src/app/(content)/extrato/components/extrato-info.jsx",
     "src/app/(content)/extrato/page.jsx",
-    "src/components/created/genericTable/generic-table.jsx",
+    "src/components/created/generic-table/generic-table.jsx",
     "src/app/(content)/contas/page.jsx"
   ],
   "exclude": ["node_modules"]
