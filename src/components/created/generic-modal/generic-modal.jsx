@@ -32,9 +32,7 @@ const GenericModal = ({
               <DialogDescription>{description}</DialogDescription>
             ) : null}
           </DialogHeader>
-
-          {formFields}
-
+          <div className="grid gap-4 py-4">{formFields}</div>
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
