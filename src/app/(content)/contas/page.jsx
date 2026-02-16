@@ -24,6 +24,9 @@ import GenericDeleteModal from "@/components/created/generic-delete-modal/generi
 import FormFields from "./components/form-fields";
 import ContasInfo from "./components/contas-info";
 
+// Toast
+import { toast } from "sonner";
+
 // Mock
 import CONTAS_INICIAIS from "./Mock/data.json";
 
@@ -47,6 +50,8 @@ export default function ContasPage() {
 
   const [form, setForm] = useState(initialform);
 
+  const allAccounts = useMemo(() => contas, [contas]);
+
   const handleOpenAddModal = () => {
     setIsEditing(false);
     setForm(initialform);
@@ -56,6 +61,7 @@ export default function ContasPage() {
   const handleOpenEditModal = (conta) => {
     setIsEditing(true);
     setForm({
+      id: conta.id,
       nome: conta.nome,
       tipo: conta.tipo,
       saldo: conta.saldo,
@@ -66,6 +72,7 @@ export default function ContasPage() {
 
   const handleOpenDeleteModal = (conta) => {
     setForm({
+      id: conta.id,
       nome: conta.nome,
       tipo: conta.tipo,
       saldo: conta.saldo,
@@ -73,11 +80,54 @@ export default function ContasPage() {
     });
     setIsDeleteModalOpen(true);
   };
+
+  const handleAdd = (e) => {
+    e.preventDefault();
+    setContas((prev) => [
+      ...prev,
+      {
+        id: String(Date.now()),
+        nome: form.nome,
+        tipo: form.tipo,
+        saldo: form.saldo,
+        inativa: !form.ativa,
+      },
+    ]);
+    setIsGenericModalOpen(false);
+    toast.success("Conta adicionada com sucesso!");
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setContas((prev) =>
+      prev.map((conta) =>
+        conta.id === form.id
+          ? {
+              ...conta,
+              nome: form.nome,
+              tipo: form.tipo,
+              saldo: form.saldo,
+              inativa: !form.ativa,
+            }
+          : conta
+      )
+    );
+    setIsGenericModalOpen(false);
+    toast.success("Conta editada com sucesso!");
+  }
+
+  const handleDelete = () => {
+    setContas((prev) => prev.filter((conta) => conta.id !== form.id));
+    setIsDeleteModalOpen(false);
+    toast.success("Conta excluída com sucesso!");
+  };
   // Total de todas as contas
   const totalContas = useMemo(
     () => contas.reduce((acc, conta) => acc + conta.saldo, 0),
     [contas],
   );
+
+  console.log(form);
 
   return (
     <main>
@@ -91,6 +141,7 @@ export default function ContasPage() {
             : "Adicione uma nova conta ao sistema."
         }
         submitLabel={isEditing ? "Editar" : "Adicionar"}
+        onSubmit={isEditing ? handleEdit : handleAdd}
       >
         {/* Campos do formulário */}
         <FormFields form={form} setForm={setForm} />
@@ -99,7 +150,7 @@ export default function ContasPage() {
       <GenericDeleteModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
-        onDelete={() => setIsDeleteModalOpen(false)}
+        onDelete={handleDelete}
         itemName={form?.nome}
       />
       <MainContainer>
@@ -111,7 +162,7 @@ export default function ContasPage() {
         </ContainerDiv>
 
         <ContainerDiv className="grid-cols-1 md:grid-cols-3">
-          {contas.map((conta) => (
+          {allAccounts.map((conta) => (
             <Card key={conta.id} className="w-full">
               <CardHeader className="flex gap-2 justify-between items-center">
                 <div className="flex items-center-safe justify-center gap-2">

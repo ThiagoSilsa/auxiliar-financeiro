@@ -58,8 +58,8 @@ const FormFields = ({ form, setForm }) => {
           <FieldLabel htmlFor="newsletter">Inativa</FieldLabel>
           <Switch
             id="newsletter"
-            checked={!form?.ativa}
-            onCheckedChange={(checked) => setForm({ ...form, ativa: !checked })}
+            checked={form?.ativa}
+            onCheckedChange={(checked) => setForm({ ...form, ativa: checked })}
           />
           <FieldLabel htmlFor="newsletter" className="mr-4">
             Ativa
