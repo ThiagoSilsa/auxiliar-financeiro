@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 const FormFields = ({ form, setForm }) => {
   return (
@@ -50,20 +51,28 @@ const FormFields = ({ form, setForm }) => {
             step="0.01"
             value={form?.saldo}
             onChange={(e) =>
-              setForm({ ...form, saldo: parseFloat(e.target.value) })
+              setForm({ ...form, saldo: parseFloat(e.target.value) || 0 })
             }
           />
         </Field>
-        <Field orientation="horizontal gap-2">
-          <FieldLabel htmlFor="newsletter">Inativa</FieldLabel>
+        <Field orientation="horizontal" className="gap-2 items-center">
+          <Label
+            htmlFor="ativa"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Inativo
+          </Label>
           <Switch
-            id="newsletter"
+            id="ativa"
             checked={form?.ativa}
             onCheckedChange={(checked) => setForm({ ...form, ativa: checked })}
           />
-          <FieldLabel htmlFor="newsletter" className="mr-4">
-            Ativa
-          </FieldLabel>
+          <Label
+            htmlFor="ativa"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Ativo
+          </Label>
         </Field>
       </FieldGroup>
     </FieldSet>

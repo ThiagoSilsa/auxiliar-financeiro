@@ -50,8 +50,6 @@ export default function ContasPage() {
 
   const [form, setForm] = useState(initialform);
 
-  const allAccounts = useMemo(() => contas, [contas]);
-
   const handleOpenAddModal = () => {
     setIsEditing(false);
     setForm(initialform);
@@ -65,7 +63,7 @@ export default function ContasPage() {
       nome: conta.nome,
       tipo: conta.tipo,
       saldo: conta.saldo,
-      ativa: !conta.inativa,
+      ativa: conta.ativa,
     });
     setIsGenericModalOpen(true);
   };
@@ -76,7 +74,7 @@ export default function ContasPage() {
       nome: conta.nome,
       tipo: conta.tipo,
       saldo: conta.saldo,
-      ativa: !conta.inativa,
+      ativa: conta.ativa,
     });
     setIsDeleteModalOpen(true);
   };
@@ -90,7 +88,7 @@ export default function ContasPage() {
         nome: form.nome,
         tipo: form.tipo,
         saldo: form.saldo,
-        inativa: !form.ativa,
+        ativa: form.ativa,
       },
     ]);
     setIsGenericModalOpen(false);
@@ -107,14 +105,14 @@ export default function ContasPage() {
               nome: form.nome,
               tipo: form.tipo,
               saldo: form.saldo,
-              inativa: !form.ativa,
+              ativa: !form.ativa,
             }
-          : conta
-      )
+          : conta,
+      ),
     );
     setIsGenericModalOpen(false);
     toast.success("Conta editada com sucesso!");
-  }
+  };
 
   const handleDelete = () => {
     setContas((prev) => prev.filter((conta) => conta.id !== form.id));
@@ -126,8 +124,6 @@ export default function ContasPage() {
     () => contas.reduce((acc, conta) => acc + conta.saldo, 0),
     [contas],
   );
-
-  console.log(form);
 
   return (
     <main>
@@ -162,7 +158,7 @@ export default function ContasPage() {
         </ContainerDiv>
 
         <ContainerDiv className="grid-cols-1 md:grid-cols-3">
-          {allAccounts.map((conta) => (
+          {contas.map((conta) => (
             <Card key={conta.id} className="w-full">
               <CardHeader className="flex gap-2 justify-between items-center">
                 <div className="flex items-center-safe justify-center gap-2">
