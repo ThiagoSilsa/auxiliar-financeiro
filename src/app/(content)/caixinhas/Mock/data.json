@@ -1,0 +1,54 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "nome": "Viagem Europa",
+      "contaVinculada": "Poupança Pessoal",
+      "valorAtual": 3500.0,
+      "valorObjetivo": 15000.0,
+      "prazo": "2026-12-31",
+      "depositoMensal": 1150.0,
+      "ativa": true
+    },
+    {
+      "id": 2,
+      "nome": "Reserva de Emergência",
+      "contaVinculada": "Conta Corrente Principal",
+      "valorAtual": 8000.0,
+      "valorObjetivo": 20000.0,
+      "prazo": "2027-06-30",
+      "depositoMensal": 750.0,
+      "ativa": true
+    },
+    {
+      "id": 3,
+      "nome": "Notebook Novo",
+      "contaVinculada": "Conta Salário",
+      "valorAtual": 2200.0,
+      "valorObjetivo": 5000.0,
+      "prazo": "2026-08-15",
+      "depositoMensal": 560.0,
+      "ativa": true
+    },
+    {
+      "id": 4,
+      "nome": "Entrada Apartamento",
+      "contaVinculada": "Conta Investimentos",
+      "valorAtual": 45000.0,
+      "valorObjetivo": 80000.0,
+      "prazo": "2028-01-01",
+      "depositoMensal": 1500.0,
+      "ativa": true
+    },
+    {
+      "id": 5,
+      "nome": "Presente de Natal",
+      "contaVinculada": "Poupança Férias",
+      "valorAtual": 500.0,
+      "valorObjetivo": 2000.0,
+      "prazo": "2026-12-20",
+      "depositoMensal": 150.0,
+      "ativa": false
+    }
+  ]
+}
