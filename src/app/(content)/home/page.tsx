@@ -6,10 +6,28 @@ import {
   MainContainer,
 } from "@/components/created/main-container/main-container";
 import { Button } from "@/components/ui/button";
-
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+  type CarouselApi,
+} from "@/components/ui/carousel";
+import { Badge } from "@/components/ui/badge";
 // icons
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+
+// React
 import { useState } from "react";
+
+// Icons
 import {
   FaArrowDown,
   FaChartLine,
@@ -21,16 +39,6 @@ import {
 import { BsBank } from "react-icons/bs";
 import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-  type CarouselApi,
-} from "@/components/ui/carousel";
-import { Badge } from "@/components/ui/badge";
-
 const HomePage = () => {
   const [isSeenValues, setIsSeenValues] = useState(true);
 
@@ -39,30 +47,28 @@ const HomePage = () => {
       <MainContainer>
         <ContainerDiv className="grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Card className="w-full">
-            <CardContent>
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-2">
-                  <FaWallet className="bg-primary text-white size-9 p-2 rounded-md" />
-                  <div>
-                    <p className="font-bold text-lg">Saldo Geral</p>
-                    <p className="text-sm dark:text-white/50 text-black/50">
-                      Todas as contas
-                    </p>
-                  </div>
+            <CardHeader className="flex gap-2 justify-between items-center">
+              <div className="flex items-center gap-2">
+                <FaWallet className="bg-primary text-white size-9 p-2 rounded-md" />
+                <div>
+                  <CardTitle>Saldo Geral</CardTitle>
+                  <CardDescription>Todas as contas</CardDescription>
                 </div>
-                <Button
-                  className="hover:text-white"
-                  variant="outline"
-                  size="icon-sm"
-                  onClick={() => setIsSeenValues(!isSeenValues)}
-                >
-                  {isSeenValues ? (
-                    <FaEye className="size-4" />
-                  ) : (
-                    <FaEyeSlash className="size-4" />
-                  )}
-                </Button>
               </div>
+              <Button
+                className="hover:text-white"
+                variant="outline"
+                size="icon-sm"
+                onClick={() => setIsSeenValues(!isSeenValues)}
+              >
+                {isSeenValues ? (
+                  <FaEye className="size-4" />
+                ) : (
+                  <FaEyeSlash className="size-4" />
+                )}
+              </Button>
+            </CardHeader>
+            <CardContent>
               <p className="text-2xl mb-2 font-bold">
                 {isSeenValues ? "R$ 22.105,66" : "****"}
               </p>
@@ -96,16 +102,16 @@ const HomePage = () => {
             </CardContent>
           </Card>
           <Card className="w-full">
-            <CardContent>
+            <CardHeader>
               <div className="flex items-center gap-2">
                 <BsBank className="bg-primary text-white size-9 p-2 rounded-md" />
                 <div>
-                  <p className="font-bold text-lg">Contas</p>
-                  <p className="text-sm dark:text-white/50 text-black/50">
-                    2 contas vinculadas
-                  </p>
+                  <CardTitle>Contas</CardTitle>
+                  <CardDescription>2 contas vinculadas</CardDescription>
                 </div>
               </div>
+            </CardHeader>
+            <CardContent>
               <Carousel className="w-[70%] m-auto">
                 <CarouselContent>
                   {Array.from({ length: 5 }).map((_, index) => (
@@ -134,19 +140,19 @@ const HomePage = () => {
             </CardContent>
           </Card>
           <Card className="w-full flex flex-col gap-4">
-            <CardContent>
+            <CardHeader>
               <div className="flex items-center gap-2">
                 <FaPiggyBank className="bg-primary text-white size-9 p-2 rounded-md" />
                 <div>
-                  <p className="font-bold text-lg">Guardado</p>
-                  <p className="text-xl font-medium">
+                  <CardTitle>Guardado</CardTitle>
+                  <p className="text-lg font-semibold">
                     {isSeenValues ? "R$ 5.000,00" : "****"}
                   </p>
-                  <p className="text-sm dark:text-white/50 text-black/50">
-                    Em 4 caixinhas
-                  </p>
+                  <CardDescription>Em 4 caixinhas</CardDescription>
                 </div>
               </div>
+            </CardHeader>
+            <CardContent>
               <Carousel className="w-[70%] m-auto">
                 <CarouselContent>
                   {Array.from({ length: 5 }).map((_, index) => (
@@ -173,19 +179,17 @@ const HomePage = () => {
         </ContainerDiv>
         <ContainerDiv className="grid-cols-1 md:grid-cols-2 gap-4">
           <Card className="w-full">
-            <CardContent>
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-2">
-                  <FaWallet className="bg-primary text-white size-9 p-2 rounded-md" />
-                  <div>
-                    <p className="font-bold text-lg">Últimas Transações</p>
-                    <p className="text-sm dark:text-white/50 text-black/50">
-                      Todas as contas
-                    </p>
-                  </div>
+            <CardHeader className="flex gap-2 justify-between items-center">
+              <div className="flex items-center gap-2">
+                <FaWallet className="bg-primary text-white size-9 p-2 rounded-md" />
+                <div>
+                  <CardTitle>Últimas Transações</CardTitle>
+                  <CardDescription>Todas as contas</CardDescription>
                 </div>
-                <Button variant="link">Visualizar Extrato</Button>
               </div>
+              <Button variant="link">Visualizar Extrato</Button>
+            </CardHeader>
+            <CardContent>
               <div className="flex flex-col gap-3 overflow-auto max-h-60 pr-2">
                 {Array.from({ length: 5 }).map((_, index) => (
                   <div
@@ -214,19 +218,16 @@ const HomePage = () => {
             </CardContent>
           </Card>
           <Card className="w-full">
-            <CardContent>
-              <div className="flex justify-between items-center mb-4">
-                <div className="flex items-center gap-2">
-                  <FaChartLine className="bg-primary text-white size-9 p-2 rounded-md" />
-                  <div>
-                    <p className="font-bold text-lg">Gráfico</p>
-                    <p className="text-sm dark:text-white/50 text-black/50">
-                      Gráfico futuro de contas
-                    </p>
-                  </div>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <FaChartLine className="bg-primary text-white size-9 p-2 rounded-md" />
+                <div>
+                  <CardTitle>Gráfico</CardTitle>
+                  <CardDescription>Gráfico futuro de contas</CardDescription>
                 </div>
               </div>
-            </CardContent>
+            </CardHeader>
+            <CardContent></CardContent>
           </Card>
         </ContainerDiv>
       </MainContainer>
