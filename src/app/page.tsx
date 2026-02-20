@@ -19,7 +19,6 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { Label } from "@/components/ui/label";
-import { CheckIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -48,14 +47,14 @@ const LoginPage = () => {
   };
 
   return (
-    <main className="relative w-full h-screen overflow-hidden flex flex-col md:flex-row">
+    <main className="relative w-full h-screen  flex flex-col md:flex-row">
       {/* Background image only visible on md and up */}
       <div className="hidden md:block absolute inset-0 z-0 md:static md:w-3/5">
         <Image
           src="/images/jessica-woulfe-login.jpg"
           alt="background image"
           fill
-          className="object-cover "
+          className="object-cover"
           priority
         />
       </div>
@@ -122,7 +121,7 @@ const LoginPage = () => {
         </div>
       </div>
       {/* Art credit, only visible on md and up */}
-      <div className="block md:absolute z-5 top-0 right-0 m-2 sm:m-4">
+      <div className="block md:absolute z-20 top-0 right-0 m-2 sm:m-4">
         <HoverCard>
           <HoverCardTrigger className="text-muted-foreground/50 cursor-pointer text-xl sm:text-2xl hover:text-ring shadow-md">
             <PiPaintBrush />
@@ -141,7 +140,7 @@ const LoginPage = () => {
         </HoverCard>
       </div>
       {/* Main card always visible */}
-      <Card className="absolute top-0 left-0 w-full lg:w-2/5 h-screen p-8 shadow-xl rounded-none md:rounded-none z-4 max-h-screen overflow-y-auto md:overflow-y-visible flex flex-col justify-center">
+      <Card className="absolute top-0 left-0 w-full lg:w-2/5 h-screen p-8 shadow-xl rounded-none md:rounded-none z-10 max-h-screen overflow-y-auto md:overflow-y-visible flex flex-col justify-center">
         <CardHeader>
           <CardTitle className="flex items-center justify-start text-xl sm:text-2xl md:text-3xl text-chart-5">
             <div className="flex items-center">
@@ -160,7 +159,7 @@ const LoginPage = () => {
           </CardTitle>
           <CardAction className="flex items-center justify-center">
             <Badge
-              className="absolute right-4 top-4 flex gap-2 z-10 text-xs sm:text-sm"
+              className="absolute right-4 top-4 flex gap-2 z-30 text-xs sm:text-sm"
               variant="construction"
             >
               Em construção
@@ -196,7 +195,6 @@ const LoginPage = () => {
                     <MdOutlineMail size={18} className="sm:size-5" />
                   </InputGroupAddon>
                   <InputGroupAddon align="inline-end">
-                    <CheckIcon className="hidden size-4 sm:size-5" />
                   </InputGroupAddon>
                 </InputGroup>
               </Field>
@@ -221,6 +219,7 @@ const LoginPage = () => {
                       variant="ghost"
                       size="icon-sm"
                       onClick={() => setCanSee((prev) => !prev)}
+                      aria-label={canSee ? "Esconder senha" : "Mostrar senha"}
                     >
                       {!canSee ? (
                         <FaEyeSlash size={16} className="sm:size-5" />
