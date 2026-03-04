@@ -1,0 +1,29 @@
+name: Criação de issue
+description: Descreva sua sugestão de nova funcionalidade para o projeto
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Complete os campos abaixo.
+  - type: textarea
+    id: description
+    attributes:
+      label: Qual o probelma apresentado?
+      placeholder: Atualmente, o sistema não tem a funcionalidade X, o que dificulta Y.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Qual a justificativa para essa funcionalidade?
+      placeholder: A funcionalidade X é importante porque ela permite Y, o que melhora Z.
+      
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Contexto adicional
+      placeholder: |
+        Se houver mais informações relevantes, como exemplos de uso, casos de teste ou links para recursos relacionados, por favor, adicione aqui.
+  
